@@ -20,7 +20,7 @@ public class ConexionDB {
        return cx;
    }
    
-    public ConexionDB(){
+    private ConexionDB(){
         try {
                String url="jdbc:postgresql://localhost:5432/ejemplo";
                con=DriverManager.getConnection(url, "postgres", "postgres");
@@ -29,6 +29,19 @@ public class ConexionDB {
         }
         
     }
+    
+    public ResultSet select (String sql){
+        Statement stm=null;
+       try {
+           stm =  con.createStatement();
+             ResultSet reg=stm.executeQuery(sql);
+        return reg;
+       } catch (SQLException ex) {
+           Logger.getLogger(ConexionDB.class.getName()).log(Level.SEVERE, null, ex);
+      return null;
+       }
+    }
+    
     
     // tiene patron singleton y se vuelve en controlador de transacciones 
     public boolean execute(TransactionDB transaction) {
